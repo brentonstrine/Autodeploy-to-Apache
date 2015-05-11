@@ -10,7 +10,7 @@
          www                  (your web root, e.g. public_html)
              autodeploy.php   (this script)
 
-  3. Parallel to your web root (in other words, one directory *up* from your web root) there is a folder named `private` which this script can write to.
+  3. This script can write to the folder `private`
   4. You've configured the items below
   5. You've set up a web hook in GitHub so that this script runs every time the branch you want to
  */
