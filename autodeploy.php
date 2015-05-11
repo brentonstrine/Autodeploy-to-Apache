@@ -11,9 +11,9 @@ $repo             = "YOUR-REPO"; // Name of the  repo  you're deploying from. Mu
 $branch           = "master";    // Name of the branch you're deploying from. Usually will be "master" or name of some other branch.
 $folder           = "www";       // Name of a folder within the repo you want to copy. Put "" to copy the entire repo. To only copy from a particular subdir put the path to it, e.g. "www" or "site/production"
 $notify           =              // List of emails to send notification to when this script is run
-    ["YOURNAME@jpl.nasa.gov"];
+    ["YOURNAME@gmail.com"];
 $account          = "YOURTEAM";  // The GitHub account name or team name
-$githubDomain     = "github.jpl.nasa.gov";// Will be "github.com" unless you're using GitHub Enterprise
+$githubDomain     = "github.com";// Will be "github.com" unless you're using GitHub Enterprise
 
 
 /* ------------------------------------------------------------------------------- */
