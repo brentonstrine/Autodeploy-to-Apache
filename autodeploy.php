@@ -1,10 +1,19 @@
 <!doctype html><html><head><title>AutoDeploy Script</title></head></head><body><?php // This script created entirely by Brenton Strine. GPL 3.0 License.
 
-// Assumptions:
-// 1. You've created a SSH key and put it in GitHub (https://help.github.com/articles/generating-ssh-keys/)
-// 2. You've placed this script into the web root of your website on the NextGen server.
-// 3. You've configured the items below
-// 4. You've set up a web hook in GitHub so that this script runs every time the branch you want to
+/*
+ Assumptions:
+  1. You've created a SSH key and put it in GitHub (https://help.github.com/articles/generating-ssh-keys/)
+  2. Your server looks like this:
+ 
+     accountroot              (your server root. probably named your username. if you're on shared hosting you can't go above this level)
+         private              (note this is a sibling of your web root, (not inside it!) therefore it inaccessible over the internet)
+         www                  (your web root, e.g. public_html)
+             autodeploy.php   (this script)
+
+  3. Parallel to your web root (in other words, one directory *up* from your web root) there is a folder named `private` which this script can write to.
+  4. You've configured the items below
+  5. You've set up a web hook in GitHub so that this script runs every time the branch you want to
+ */
 
 $deploy_location  = ".";         // Location you want to deploy to. Usually will be "." (web root). For a subdirectory do "subdir" or "subdir/furthersubdir".
 $repo             = "YOUR-REPO"; // Name of the  repo  you're deploying from. Must be exact GitHub repo name.
