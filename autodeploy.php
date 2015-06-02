@@ -4,7 +4,7 @@
  Assumptions:
   1. You've created a SSH key and put it in GitHub (https://help.github.com/articles/generating-ssh-keys/)
   2. Your server looks like this:
- 
+
      accountroot              (your server root. probably named your username. if you're on shared hosting you can't go above this level)
          private              (note this is a sibling of your web root, (not inside it!) therefore it inaccessible over the internet)
          www                  (your web root, e.g. public_html)
@@ -80,14 +80,14 @@ function recurse_copy_newer($src,$dst) {
 $hostName       = $_SERVER[SERVER_NAME];
 $scriptLocation = $_SERVER[SCRIPT_FILENAME];
 $sourcePath = "http://$githubDomain/$account/$repo/tree/$branch/$folder";
-$copy_to = ($copy_to==".") ? "" : $copy_to;
+$deploy_path = "http://" . $hostName . "/" . (($deploy_location==".") ? "" : $deploy_location);
 $percent_copied = ($total_copied / $total_files) * 100;
 $headers  = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n";
 $subject = "AutoDeploy from repo $account/" . $repo . " to http://" . $hostName;
 $email_body = "A total of <b>$total_copied files were copied</b> from <a href='$sourcePath'>GitHub</a> to <a href='http://$hostName'>$hostName</a>.</p>";
 $email_body .= "<p>First, this script did a <code>git pull</code> on branch <code>$branch</code> of <code>$repo</code> GitHub responded:</p>";
 $email_body .= "<pre class='code'>$git_output</pre>";
-$email_body .= "<p>Then this script copied all new files from <a href='$sourcePath'><code>$sourcePath</code></a> to <a href='$hostName'><code>http://" . $hostName  . "/</code></a>.</p>";
+$email_body .= "<p>Then this script copied all new files from <a href='$sourcePath'><code>$sourcePath</code></a> to <a href='$deploy_path'><code>" . $deploy_path . "</code></a>.</p>";
 if($percent_copied>0){
     $email_body .= "<p>The following $total_copied files (" . intval($percent_copied) . "% of the repo) were updated.</p>";
     $email_body .= "<pre class='code'>" . $copied_files . "</pre>";
