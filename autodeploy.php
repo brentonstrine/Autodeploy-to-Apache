@@ -29,14 +29,18 @@ $githubDomain     = "github.com";// Will be "github.com" unless you're using Git
 /* ---------------- no need to configure anything below this line ---------------- */
 /* ------------------------------------------------------------------------------- */
 
+$scriptName = basename($_SERVER['PHP_SELF'], ".php");
+$locDir = "../private/" . $scriptName;
+$locGit = $locDir . "/.git";
+
 // update repo. if it's not there, try to create it.
-if(is_dir("../private/autodeploy") && is_dir("../private/autodeploy/.git")){
-    $git_output = shell_exec("cd ../private/autodeploy && git pull git@".$githubDomain.":" . $account . "/" . $repo . " " . $branch . "  2>&1");
+if(is_dir($locDir) && is_dir($locGit)){
+    $git_output = shell_exec("cd ". $locDir ." && git pull git@".$githubDomain.":" . $account . "/" . $repo . " " . $branch . "  2>&1");
 } else {
-    echo "<h3>AutoDeploy Configuration</h3><p>Let's try to clone the repo into <code>private/autodeploy</code>.</p>";
+    echo "<h3>AutoDeploy Configuration</h3><p>Let's try to clone the repo into <code>private/".$scriptName."</code>.</p>";
     echo "<pre class='code'>";
-    echo "<b>git clone git@".$githubDomain.":" . $account . "/" . $repo . " autodeploy</b><br>";
-    echo $git_output = shell_exec("cd ../private && git clone git@".$githubDomain.":" . $account . "/" . $repo . " autodeploy 2>&1");
+    echo "<b>git clone git@" . $githubDomain . ":" . $account . "/" . $repo . " " . $scriptName . "</b><br>";
+    echo $git_output = shell_exec("cd ../private && git clone git@".$githubDomain.":" . $account . "/" . $repo . " " . $scriptName . " 2>&1");
     echo"</pre>";
     if(strpos($git_output, "fatal") >= 0 && (strpos($git_output, "private mode is enabled") || strpos($git_output, "Host key verification failed") || strpos($git_output, "Permission denied") ) ){
         echo "<p>Oops. Looks like a SSH key isn't set up! Please follow instructions <a href='https://help.github.com/articles/generating-ssh-keys/'>on this page</a> to set up SSH keys for this site and then plug them into GitHub.</p>";
@@ -50,7 +54,7 @@ $total_files = 0;
 $copied_files = "";
 
 // copy files from repo to destination directory
-recurse_copy_newer("../private/autodeploy/" . $folder, $deploy_location);
+recurse_copy_newer($locDir . $folder, $deploy_location);
 
 // copy all contents of a directory to the destination as long as the source file is newer than the destination file
 function recurse_copy_newer($src,$dst) {
